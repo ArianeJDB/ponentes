@@ -34,7 +34,7 @@ app.post('/api/speakers', (req, res) => {
         if (err) {
             res.status(500).send({message: `Error al guardar en la base de datos: ${err}`})
         } else {
-           res.status(200).send({ message: 'Se ha creado un nuevo ponente', speaker: speakerStored}); 
+           res.status(200).send({ speaker: speakerStored }); 
         }
         
     })
@@ -61,3 +61,4 @@ mongoose.connect('mongodb://localhost:27017/speakers',
             console.log(`Escuchanding en ${port}!`);
     });
 })
+

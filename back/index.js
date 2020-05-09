@@ -10,9 +10,22 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.get('/api/speakers', (req, res) => {
+    Speaker.find((err, speakers) => {
+        if (err) return res.status(500).send({ message: `Error en el servidor ${err}`})
+        if (!speakers) return res.status(404).send({ message: "No existen ponentes"})
+        res.status(200).send({ speakers })
+    })
 })
 
 app.get('/api/speakers/:speakerId', (req, res) => {
+    let speakerId = req.params.speakerId
+
+    Speaker.findById(speakerId, (err, speaker) => {
+        if (err) return res.status(500).send({ message: `Error en el servidor ${err}`})
+        if (!speaker) return res.status(404).send({ message: "No existe ese ponente"})
+         res.status(200).send({ speaker })
+    })
+
 })
 
 app.post('/api/speakers', (req, res) => {

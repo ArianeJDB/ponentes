@@ -10,4 +10,7 @@ api.post('/speakers', speakerController.createSpeaker)
 api.put('/speakers/:speakerId', speakerController.updateSpeaker)
 api.delete('/speakers/:speakerId', speakerController.deleteSpeaker)
 
+api.post('/speakers/:speakerId', speakerController.addTalk)
+api.put('/speakers/:speakerId/talks/:talkId', speakerController.updateTalk)
+
 module.exports = api

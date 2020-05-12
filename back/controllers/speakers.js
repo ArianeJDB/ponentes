@@ -74,45 +74,56 @@ function deleteSpeaker (req, res) {
 function addTalk (req, res) {
     let speakerId = req.params.speakerId
     let talk = req.body.talks
-
+    if(!talk) {res.status(400).send({ message: `You cant send an empty talk`})}
     talk.forEach(item => {
          Speaker.updateOne(
         {_id: speakerId },
         { $push: { talks: item }},
         { multi: true },
         (err) => {
-            if (err) {
-                res.status(500).send({ message: `There was an error creating this talk ${err}`})
-            }
+            if (err) res.status(500).send({ message: `There was an error creating this talk ${err}`})
+            else res.status(201).send({ success: true, talks: talk })
         },
     )
     },
-    res.status(201).send({ success: true, talks: talk })
+    
     )
 }
 
 function updateTalk (req, res) {
     let speakerId = req.params.speakerId
-    let talkId = req.params.talkId
-    let talk = req.body.talks
+    // speakerId = mongoose.Types.ObjectId(speakerId);
+    let talkId = req.params.talkId;
+    // talkId = mongoose.Types.ObjectId(talkId)
+    let talk = req.body
+    // const title = talk.title;
+    // const description = talk.description;
+    // const isRepeated = talk.isRepeated;
 
-    talk.forEach(item => {
-        const title = item.title;
-        const description = item.description;
-        const isRepeated = item.isRepeated;
         Speaker.updateOne(
-            {_id: speakerId, 'talks._id': talkId },
-            { $set: {'talks.$': title, description, isRepeated }}, function (err) {
-                if (err) {
-                    res.status(500).send({ message: `Server Error: ${err}` })
-                }
+            {
+                _id: speakerId, 
+                'talks._id': talkId 
+            },
+            { $set: {'talks.$': talk }},
+            { multi: true },
+            (err) => {
+                if (err) res.status(500).send({ message: `There was an error creating this talk ${err}`})
+                else res.status(200).send({ success: true, talk })
             }
         )
-    },
-    res.status(200).send({ success: true, talks: talk })
 
-    )
+}
 
+function deleteTalk (req, res) {
+    let speakerId = req.params.speakerId
+    let talkId = req.params.talkId
+    let talks = req.body.talks
+
+    Speaker.findById(speakerId, (err, post) => {
+        if (err) return res.status(500).send({ message: `There was an error creating this talk ${err}` })
+        if(!talks) return res.status(404).send({ message: 'This talk doesnt exists' })
+    })
 }
 module.exports = {
     getSpeakers,

@@ -92,13 +92,8 @@ function addTalk (req, res) {
 
 function updateTalk (req, res) {
     let speakerId = req.params.speakerId
-    // speakerId = mongoose.Types.ObjectId(speakerId);
     let talkId = req.params.talkId;
-    // talkId = mongoose.Types.ObjectId(talkId)
     let talk = req.body
-    // const title = talk.title;
-    // const description = talk.description;
-    // const isRepeated = talk.isRepeated;
 
         Speaker.updateOne(
             {
@@ -118,11 +113,21 @@ function updateTalk (req, res) {
 function deleteTalk (req, res) {
     let speakerId = req.params.speakerId
     let talkId = req.params.talkId
-    let talks = req.body.talks
+    let talk = req.body
 
-    Speaker.findById(speakerId, (err, post) => {
-        if (err) return res.status(500).send({ message: `There was an error creating this talk ${err}` })
-        if(!talks) return res.status(404).send({ message: 'This talk doesnt exists' })
+    Speaker.findById(speakerId, (err) => {
+        if (err) return res.status(500).send({ message: `There was an error removing this talk ${err}` })
+        if(!talk) return res.status(404).send({ message: 'This talk doesnt exists' })
+
+        Speaker.updateOne(
+            { _id: speakerId },
+            { $pull: { talks: { _id: talkId }}},
+            { multi: true },
+            (err) => {
+                if (err) res.status(500).send({ message: `There was an error removing this talk ${err}` })
+                else res.status(200).send({ message: 'The talk has been removed' })
+            }
+        )
     })
 }
 module.exports = {
@@ -132,6 +137,7 @@ module.exports = {
     updateSpeaker,
     deleteSpeaker,
     addTalk,
-    updateTalk
+    updateTalk,
+    deleteTalk
 
 }

@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const bcrypt = require('bcrypt-nodejs')
 
 const TalksSchema = Schema({
     title: String,
@@ -10,7 +11,8 @@ const TalksSchema = Schema({
 })
 
 const SpeakerSchema = Schema({
-    email: String,
+    email: { type: String, unique: true, lowercase: true },
+    passwordHash: { type: String, select: false },
     name: String,
     biography: String,
     image: String,
@@ -18,6 +20,7 @@ const SpeakerSchema = Schema({
     website: String,
     twitter: String,
     linkedin: String,
+    registrationDate: { type: Date, default: Date.now() },
     talks: [TalksSchema] 
 })
 

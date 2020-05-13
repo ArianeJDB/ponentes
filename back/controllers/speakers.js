@@ -1,9 +1,10 @@
 'use strict'
 
+const bcrypt = require('bcrypt-nodejs')
 const Speaker =  require('../models/speaker')
 
 function getSpeakers (req, res) {
-    Speaker.find({}, (err, speakers) => {
+    Speaker.find({}, { password: 0 }, (err, speakers) => {
         if (err) return res.status(500).send({ message: `Error en el servidor ${err}`})
         if (!speakers) return res.status(404).send({ message: "No existen ponentes"})
         res.status(200).send({ success: true, count: speakers.length, data: speakers })
@@ -14,7 +15,7 @@ function getSpeakers (req, res) {
 function getOneSpeaker (req, res) {
     let speakerId = req.params.speakerId
     let talks;
-    Speaker.findById(speakerId, (err, speaker) => {
+    Speaker.findById(speakerId, { password: 0 }, (err, speaker) => {
         if (err) return res.status(500).send({ message: `Error en el servidor ${err}`})
         if (!speaker) return res.status(404).send({ message: "This speaker doesnt exist"})
          res.status(200).send({ success: true, data: speaker })
@@ -22,12 +23,14 @@ function getOneSpeaker (req, res) {
     })
 }
 
+//registration
 function createSpeaker (req, res) {
     console.log('POST /api/speakers')
     console.log(req.body)
 
     let speaker = new Speaker()
     speaker.email = req.body.email,
+    speaker.password = req.body.password
     speaker.name = req.body.name,
     speaker.biography = req.body.biography,
     speaker.image = req.body.image,
@@ -38,15 +41,34 @@ function createSpeaker (req, res) {
     speaker.talks = req.body.talks,
 
     speaker.save((err, speakerStored) => {
-        if (err) {
-            res.status(500).send({message: `It couldnt be saved in BBDD: ${err}`})
-        } else {
-           res.status(201).send({ success: true,data: speakerStored }); 
-        }
-        
+        if (err) res.status(500).send({message: `It couldnt be saved in BBDD: ${err}`})
+        else res.status(201).send({ success: true,data: speakerStored }); 
     })
-
+// login(speaker.email, speaker.password)
 }
+
+async function login(email, password) {
+    const passwordHash = await bcrypt.hash(password, bcrypt.genSaltSync(8), null)
+
+    let speaker = await Speaker.findOne({ email }).exec();
+
+    if (!speaker) {
+        speaker = new Speaker({ email, passwordHash })
+    } else {
+        speaker.passwordHash = passwordHash
+    }
+    await speaker.save()
+}
+
+async function find (email) {
+    return await Speaker.findOne({ email }).exec();
+}
+
+async function verifyPassword (speaker, password) {
+    return await bcrypt.compare(password, speaker.passwordHash);
+}
+
+
 
 function updateSpeaker (req, res) {
     let speakerId = req.params.speakerId
@@ -138,6 +160,8 @@ module.exports = {
     deleteSpeaker,
     addTalk,
     updateTalk,
-    deleteTalk
+    deleteTalk,
+    find,
+    verifyPassword
 
 }

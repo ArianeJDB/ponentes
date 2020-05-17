@@ -25,7 +25,6 @@ function getOneSpeaker (req, res) {
 
 //registration
 function createSpeaker (req, res) {
-    console.log('POST /api/speakers')
     console.log(req.body)
 
     let speaker = new Speaker()
@@ -44,10 +43,12 @@ function createSpeaker (req, res) {
         if (err) res.status(500).send({message: `It couldnt be saved in BBDD: ${err}`})
         else res.status(201).send({ success: true,data: speakerStored }); 
     })
-// login(speaker.email, speaker.password)
 }
 
-async function login(email, password) {
+async function login(req, res) {
+    const email = req.body.email
+    const password = req-body.password
+
     const passwordHash = await bcrypt.hash(password, bcrypt.genSaltSync(8), null)
 
     let speaker = await Speaker.findOne({ email }).exec();
@@ -162,6 +163,7 @@ module.exports = {
     updateTalk,
     deleteTalk,
     find,
-    verifyPassword
+    verifyPassword,
+    login
 
 }

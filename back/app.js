@@ -10,6 +10,7 @@ const cors = require('cors')
 const config = require('./config')
 
 const api = require('./routes/index')
+const login = require('./routes/login')
 const speakers = require('./controllers/speakers')
 const app = express()
 
@@ -41,5 +42,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cors()) 
 app.use('/api', api)
+app.use('/login', login)
 
 module.exports = app;

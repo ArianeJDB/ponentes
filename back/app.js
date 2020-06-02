@@ -14,6 +14,7 @@ const config = require('./config')
 
 const api = require('./routes/index')
 const login = require('./routes/login')
+const admin = require('./routes/admin')
 const speakers = require('./controllers/speakers')
 const app = express()
 
@@ -62,6 +63,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cors()) 
 app.use('/api', api)
-app.use('/api/login', login)
+app.use('/login', login)
+app.use('/admin', admin)
 
 module.exports = app;

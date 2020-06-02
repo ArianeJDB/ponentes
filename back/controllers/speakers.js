@@ -2,6 +2,7 @@
 
 const bcrypt = require('bcrypt-nodejs')
 const Speaker =  require('../models/speaker')
+const admin = require('../adminData')
 
 function getSpeakers (req, res) {
     Speaker.find({}, { password: 0 }, (err, speakers) => {
@@ -25,11 +26,9 @@ function getOneSpeaker (req, res) {
 
 //registration
 function createSpeaker (req, res) {
-    console.log(req.body)
-
     let speaker = new Speaker()
     speaker.email = req.body.email,
-    speaker.password = req.body.password
+    speaker.password = req.body.passwordHash
     speaker.name = req.body.name,
     speaker.biography = req.body.biography,
     speaker.image = req.body.image,
@@ -41,21 +40,26 @@ function createSpeaker (req, res) {
 
     speaker.save((err, speakerStored) => {
         if (err) res.status(500).send({message: `It couldnt be saved in BBDD: ${err}`})
-        else res.status(201).send({ success: true,data: speakerStored }); 
+        else res.status(201).send({ success: true, data: speakerStored }); 
     })
+    addSpeaker(speaker.email, speaker.password)
 }
+addSpeaker(admin.email, admin.passwordHash)
 
-async function login(req, res) {
-    const email = req.body.email
-    const password = req-body.password
-
+async function addSpeaker(email, password) {
+    // const email = req.body.email
+    // const password = req.body.password
+    console.log('ADDSPEAKER',email, password)
     const passwordHash = await bcrypt.hash(password, bcrypt.genSaltSync(8), null)
 
     let speaker = await Speaker.findOne({ email }).exec();
 
     if (!speaker) {
+        console.log('holita', speaker)
         speaker = new Speaker({ email, passwordHash })
     } else {
+        console.log('chaita', speaker)
+
         speaker.passwordHash = passwordHash
     }
     await speaker.save()
@@ -164,6 +168,6 @@ module.exports = {
     deleteTalk,
     find,
     verifyPassword,
-    login
+    addSpeaker
 
 }

@@ -21,16 +21,19 @@ const app = express()
 const SECRET_KEY = 'SECRET_KEY'
 
 async function verify(email, password, done) {
-
-    let speaker = await speakers.find(email);
-    if (!speaker) {
-        return done(null, false, { message: 'User not found' });
+    try {
+        let speaker = await speakers.find(email);
+        if (!speaker) {
+            return done(null, false, { message: 'User not found' });
+        }
+        if (await speakers.verifyPassword(speaker, password)) {
+            return done(null, speaker);
+        } else {
+            return done(null, false, { message: 'Incorrect password' });
+        }
     }
-
-    if (await speakers.verifyPassword(speaker, password)) {
-        return done(null, speaker);
-    } else {
-        return done(null, false, { message: 'Incorrect password' });
+    catch (err) {
+        console.log(err.message)
     }
 }
 passport.use(new BasicStrategy(verify));

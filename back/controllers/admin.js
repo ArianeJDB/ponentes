@@ -1,29 +1,29 @@
 'use strict';
 
-const Admin = require('../models/admin')
-const adminData = require('../adminData')
+const { find, create } = require('../queries/admin')
 
-function createAdmin (req, res) { 
-    console.log('CREATE ADMIN')
-    Admin.create(adminData, (err) => {
-        if (err) return res.status(500).send({ message: `Server error ${err}` })
-        console.log('holaaa')
-    })
+async function createAdmin (req, res, next) {
+    const { body }  = req
+    try {
+        const createdAdmin = await create(body)
+        res.status(201).send(createdAdmin)
+    } catch (ex) {
+        next(ex)
+    }
 }
 
-function getAdmin(req, res) {
-    
-    Admin.find({}, (err, admin) => {
-        if (err) return res.status(500).send({ message: `Server error: ${err}` })
+async function getAdmin(req, res, next) {
+    try {
+        const admins = await find()
+        if (!admins.length) return res.status(404).send({ message: 'No admin found' })
+        res.status(200).json({ success: true, count: admins.length, data: admins})
 
-        if (!admin) {
-            return res.status(404).send({ message: 'There is no admin' })}
-
-        if (admin.length === 0) createAdmin();
-
-    })
+    } catch (ex) {
+        next(ex)
+    }
 }
 
 module.exports = {
-    getAdmin
+    getAdmin,
+    createAdmin
 }

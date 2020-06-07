@@ -2,7 +2,7 @@
 
 const adminData = {
     "email": "ariane@email.com",
-    "passwordHash": "123456",
+    "password": "123456",
 }
 
 module.exports = adminData;

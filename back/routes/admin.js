@@ -1,10 +1,8 @@
-'use strict'
-
-const express = require('express');
-const admin = express.Router();
 const adminController = require('../controllers/admin')
 
+const createAdminRouter = (router) => {
+    router.get('/admin', adminController.getAdmin),
+    router.post('/admin', adminController.createAdmin)
+}
 
-admin.get('/', adminController.getAdmin)
-
-module.exports = admin; 
+module.exports = createAdminRouter;

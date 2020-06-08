@@ -1,173 +1,92 @@
 'use strict'
 
-const bcrypt = require('bcrypt-nodejs')
-const Speaker =  require('../models/speaker')
-const admin = require('../adminData')
+const { hash } = require('../lib/security')
+const { find: findSpeakers, create, findOne, findById, update, remove } = require('../queries/speaker')
 
-function getSpeakers (req, res) {
-    Speaker.find({}, { password: 0 }, (err, speakers) => {
-        if (err) return res.status(500).send({ message: `Error en el servidor ${err}`})
-        if (!speakers) return res.status(404).send({ message: "No existen ponentes"})
+async function getSpeakers (req, res, next) {
+    try {
+        const speakers = await findSpeakers()
+        if (!speakers.length) return res.status(404).send({ message: "No speaker found" })
         res.status(200).send({ success: true, count: speakers.length, data: speakers })
-     
-    })
+    } catch (ex) {
+        next(ex)
+    }
+
 }
 
-function getOneSpeaker (req, res) {
-    let speakerId = req.params.speakerId
-    let talks;
-    Speaker.findById(speakerId, { password: 0 }, (err, speaker) => {
-        if (err) return res.status(500).send({ message: `Error en el servidor ${err}`})
+async function getOneSpeaker (req, res, next) {
+    const speakerId = req.params.speakerId
+    try {
+        const speaker = await findById(speakerId)
         if (!speaker) return res.status(404).send({ message: "This speaker doesnt exist"})
-         res.status(200).send({ success: true, data: speaker })
-        talks = speaker.talks
-    })
+        res.status(200).send({ success: true, data: speaker })
+    } catch (ex) {
+        next(ex)
+    }
 }
 
 //registration
-function createSpeaker (req, res) {
-    let speaker = new Speaker()
-    speaker.email = req.body.email,
-    speaker.password = req.body.passwordHash
-    speaker.name = req.body.name,
-    speaker.biography = req.body.biography,
-    speaker.image = req.body.image,
-    speaker.github = req.body.github,
-    speaker.website = req.body.website,
-    speaker.twitter = req.body.twitter,
-    speaker.linkedin = req.body.linkedin,
-    speaker.talks = req.body.talks,
-
-    speaker.save((err, speakerStored) => {
-        if (err) res.status(500).send({message: `It couldnt be saved in BBDD: ${err}`})
-        else res.status(201).send({ success: true, data: speakerStored }); 
-    })
-    addSpeaker(speaker.email, speaker.password)
+async function createSpeaker (req, res, next) {
+    const speaker = req.body
+    try {
+        const speakerStored = await create(speaker)
+        res.status(201).send({ success: true, data: speakerStored });
+    } catch (ex) {
+        console.log(ex)
+        next(ex)
+    }
 }
-addSpeaker(admin.email, admin.passwordHash)
 
+// addSpeaker(admin.email, admin.passwordHash)
+
+
+// esto no he entendido muy bien para qué es
 async function addSpeaker(email, password) {
     // const email = req.body.email
     // const password = req.body.password
     console.log('ADDSPEAKER',email, password)
-    const passwordHash = await bcrypt.hash(password, bcrypt.genSaltSync(8), null)
+    const passwordHash = await hash(password)
 
-    let speaker = await Speaker.findOne({ email }).exec();
+    findOne({ email }, async (error, speaker) => {
 
-    if (!speaker) {
-        console.log('holita', speaker)
-        speaker = new Speaker({ email, passwordHash })
-    } else {
-        console.log('chaita', speaker)
+        if (!speaker) {
+            console.log('holita', speaker)
+            speaker = new Speaker({ email, passwordHash })
+        } else {
+            console.log('chaita', speaker)
+            speaker.passwordHash = passwordHash
+        }
+        await speaker.save()
+    })
+}
 
-        speaker.passwordHash = passwordHash
+async function updateSpeaker (req, res, next) {
+    const speakerId = req.params.speakerId
+    const updated = req.body
+    try {
+        const speakerUpdated = await update(speakerId, updated)
+        res.status(200).send({ success: true, data: speakerUpdated })
+    } catch(ex) {
+        next(ex)
     }
-    await speaker.save()
 }
 
-async function find (email) {
-    return await Speaker.findOne({ email }).exec();
+async function deleteSpeaker (req, res, next) {
+    const { params } = req
+    const { speakerId } = params
+    try {
+        await remove(speakerId)
+        res.status(200).send({ success: true })
+    } catch(ex) {
+        next(ex)
+    }
 }
 
-async function verifyPassword (speaker, password) {
-    return await bcrypt.compare(password, speaker.passwordHash);
-}
 
-
-
-function updateSpeaker (req, res) {
-    let speakerId = req.params.speakerId
-    let updated = req.body
-    Speaker.findByIdAndUpdate(speakerId, updated, (err, updatedBody) => {
-        if (err) return res.status(500).send({ message: `Server error ${err}`})
-        res.status(200).send({ success: true, data: updatedBody })
-    })
-}
-
-function deleteSpeaker (req, res) {
-    let speakerId = req.params.speakerId
-
-    Speaker.findById(speakerId, (err, speaker) => {
-        if (err) return res.status(500).send({ message: `Server error ${err}`})
-        if (!speaker) return res.status(404).send({ message: "This speaker doenst exist"})
-
-        speaker.remove(err => {
-            if (err) return res.status(500).send({ message: `Server error ${err}`})
-            res.status(200).send({ success: true })
-        })
-    })
-}
-
-function addTalk (req, res) {
-    let speakerId = req.params.speakerId
-    let talk = req.body.talks
-    if(!talk) {res.status(400).send({ message: `You cant send an empty talk`})}
-    talk.forEach(item => {
-         Speaker.updateOne(
-        {_id: speakerId },
-        { $push: { talks: item }},
-        { multi: true },
-        (err) => {
-            if (err) res.status(500).send({ message: `There was an error creating this talk ${err}`})
-            else res.status(201).send({ success: true, talks: talk })
-        },
-    )
-    },
-    
-    )
-}
-
-function updateTalk (req, res) {
-    let speakerId = req.params.speakerId
-    let talkId = req.params.talkId;
-    let talk = req.body
-
-        Speaker.updateOne(
-            {
-                _id: speakerId, 
-                'talks._id': talkId 
-            },
-            { $set: {'talks.$': talk }},
-            { multi: true },
-            (err) => {
-                if (err) res.status(500).send({ message: `There was an error creating this talk ${err}`})
-                else res.status(200).send({ success: true, talk })
-            }
-        )
-
-}
-
-function deleteTalk (req, res) {
-    let speakerId = req.params.speakerId
-    let talkId = req.params.talkId
-    let talk = req.body
-
-    Speaker.findById(speakerId, (err) => {
-        if (err) return res.status(500).send({ message: `There was an error removing this talk ${err}` })
-        if(!talk) return res.status(404).send({ message: 'This talk doesnt exists' })
-
-        Speaker.updateOne(
-            { _id: speakerId },
-            { $pull: { talks: { _id: talkId }}},
-            { multi: true },
-            (err) => {
-                if (err) res.status(500).send({ message: `There was an error removing this talk ${err}` })
-                else res.status(200).send({ message: 'The talk has been removed' })
-            }
-        )
-    })
-}
 module.exports = {
     getSpeakers,
     getOneSpeaker,
     createSpeaker,
     updateSpeaker,
-    deleteSpeaker,
-    addTalk,
-    updateTalk,
-    deleteTalk,
-    find,
-    verifyPassword,
-    addSpeaker
-
+    deleteSpeaker
 }

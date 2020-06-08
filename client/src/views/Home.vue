@@ -14,6 +14,11 @@
 <script>
 import { getSpeakers } from '../services/services'
 export default {
+  data() {
+    return {
+      speakersData: []
+    }
+  },
   name: 'Home',
   components: {},
   mounted() {

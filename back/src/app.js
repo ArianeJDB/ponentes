@@ -12,7 +12,7 @@ const { verify } = require('./utils/auth')
 
 const { find } = require('./queries/speaker')
 
-const createRouter = require('./routes/index')
+const createRouter = require('./routes')
 
 const createApp = port => {
     const app = express()

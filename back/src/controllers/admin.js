@@ -16,8 +16,7 @@ async function getAdmin(req, res, next) {
     try {
         const admins = await find()
         if (!admins.length) return res.status(404).send({ message: 'No admin found' })
-        res.status(200).json({ success: true, count: admins.length, data: admins})
-
+        res.status(200).send({ success: true, count: admins.length, data: admins})
     } catch (ex) {
         next(ex)
     }

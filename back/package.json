@@ -2,10 +2,10 @@
   "name": "api-rest",
   "version": "1.0.0",
   "description": "Proyecto final curso JavaScript avanzado de Fictizia",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon src/index.js",
+    "test": "jest"
   },
   "author": "Ari",
   "license": "ISC",
@@ -15,9 +15,9 @@
     "colors": "^1.4.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "fs": "0.0.1-security",
     "helmet": "^3.22.0",
     "https": "^1.0.0",
+    "jest": "^26.0.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.13",
     "passport": "^0.4.1",

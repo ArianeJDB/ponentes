@@ -1,15 +1,14 @@
-'use strict';
 
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const connect = (db, cb) => {
-    mongoose.connect(db,
-        {
-            useUnifiedTopology: true,
-            useNewUrlParser: true,
-            useFindAndModify: false,
-            useCreateIndex: true
-        }, cb)
-}
+  mongoose.connect(db,
+    {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+      useFindAndModify: false,
+      useCreateIndex: true,
+    }, cb);
+};
 
-module.exports = connect
+module.exports = connect;

@@ -1,35 +1,31 @@
 {
-  "name": "api-rest",
-  "version": "1.0.0",
-  "description": "Proyecto final curso JavaScript avanzado de Fictizia",
-  "main": "src/index.js",
-  "scripts": {
-    "start": "nodemon src/index.js",
-    "test": "jest"
-  },
-  "author": "Ari",
-  "license": "ISC",
-  "dependencies": {
-    "bcrypt": "^4.0.1",
-    "body-parser": "^1.19.0",
-    "colors": "^1.4.0",
-    "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "helmet": "^3.22.0",
-    "https": "^1.0.0",
-    "jest": "^26.0.1",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.9.13",
-    "passport": "^0.4.1",
-    "passport-http": "^0.3.0",
-    "passport-jwt": "^4.0.0"
-  },
-  "devDependencies": {
-    "eslint": "^7.2.0",
-    "eslint-config-airbnb": "^18.1.0",
-    "eslint-plugin-import": "^2.21.1",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.20.0",
-    "nodemon": "^2.0.3"
-  }
+    "name": "api-rest",
+    "version": "1.0.0",
+    "description": "Proyecto final curso JavaScript avanzado de Fictizia",
+    "main": "src/index.js",
+    "scripts": {
+        "start": "nodemon src/bin/server.js",
+        "test": "jest"
+    },
+    "author": "Ari",
+    "license": "ISC",
+    "dependencies": {
+        "axios": "^0.19.2",
+        "bcrypt": "^4.0.1",
+        "body-parser": "^1.19.0",
+        "colors": "^1.4.0",
+        "cors": "^2.8.5",
+        "express": "^4.17.1",
+        "helmet": "^3.22.0",
+        "https": "^1.0.0",
+        "jest": "^26.0.1",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^5.9.13",
+        "passport": "^0.4.1",
+        "passport-http": "^0.3.0",
+        "passport-jwt": "^4.0.0"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.3"
+    }
 }

@@ -34,6 +34,15 @@ const create = async (data = {}) => new Promise(async (resolve, reject) => {
 
 const findOne = async (params) => new Promise(async (resolve, reject) => {
   try {
+    const speaker = await Speaker.findOne(params, '+password').lean().exec();
+    resolve(speaker);
+  } catch (ex) {
+    reject(ex);
+  }
+});
+
+const findOneWithPassword = async (params) => new Promise(async (resolve, reject) => {
+  try {
     const speaker = await Speaker.findOne(params).lean().exec();
     resolve(speaker);
   } catch (ex) {

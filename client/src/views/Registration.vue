@@ -10,6 +10,9 @@
       <input type="text">
       <label for="bio">Descripción/biografía</label>
       <textarea name="" id="" cols="30" rows="10"></textarea>
+      <label for="pic">Sube una foto tuya</label>
+      <input type="file" ref="file" @change="uploadPic">
+      <button @click="savePic">Guardar</button>
         CHARLAS
       <label for="title">Título de tu charla</label>
       <input type="text">
@@ -29,9 +32,21 @@ import { createNewSpeaker } from '../services/services'
 export default {
   name: 'Registration',
   components: {},
-
+  data() {
+    return {
+      name: null,
+      
+      selectedPic: null
+    }
+  },
   methods: {
+    uploadPic(event) {
+      const pic = this.$refs.file.files[0];
+      this.selectedPic = pic
+    },
+    setPayload() {
 
+    }
     // register() {
     //   createNewSpeaker()
     //     .then(data => {

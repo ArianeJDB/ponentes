@@ -3,23 +3,23 @@
     <h1>Reigstrateeeee</h1>
     <form action="">
       <label for="email">Email</label>
-      <input id="email" type="text">
+      <input type="text">
       <label for="email">Contraseña</label>
-      <input id="password" type="password">
+      <input type="password">
       <label for="name">Nombre</label>
-      <input id="name" type="text">
+      <input type="text">
       <label for="bio">Descripción/biografía</label>
-      <textarea name="" id="title" cols="30" rows="10"></textarea>
+      <textarea name="" id="" cols="30" rows="10"></textarea>
         CHARLAS
       <label for="title">Título de tu charla</label>
-      <input id ="bio" type="text">
+      <input type="text">
           <label for="bio">Descripción de tu charla</label>
-      <textarea name="" id="repeated" cols="30" rows="10"></textarea>
+      <textarea name="" id="" cols="30" rows="10"></textarea>
       ¿Has dado ya esta charla en otro evento?
-        <label for="yes">Sí</label>
-        <input type="checkbox" name="yes" id="yes">
-        <label for="no">No</label>
-        <input type="checkbox" name="no" id="no">
+        <label for="">Sí</label>
+        <input type="checkbox" name="yes" id="">
+        <label for="">No</label>
+        <input type="checkbox" name="no" id="">
     </form>
     </div>
 </template>

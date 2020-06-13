@@ -6,12 +6,10 @@ const { verify } = require('../utils/auth')
 const SECRET_KEY = 'SECRET_KEY';
 
 module.exports = function login(req, res) {
-  const { email, password } = req.user;
+  const { email, password } = req.body;
   const speakerData = req.body;
-  console.log('controller')
-  console.log(email, password)
+
   verify(email, password, (err, data) => {
-    console.log(err, data)
     if (err || !data) {
       res.status(401).send({ message: 'Wrong password' })
     } else {

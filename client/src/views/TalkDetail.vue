@@ -50,7 +50,7 @@ export default {
             this.setRepeated()
         },
         setRepeated() {
-            if(!this.selectedTalk.isRepeated) {
+            if(this.selectedTalk.isRepeated) {
                 this.isRepeated = 'Ya he dado esta charla antes'
             }
         }

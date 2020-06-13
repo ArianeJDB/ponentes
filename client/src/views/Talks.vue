@@ -1,5 +1,5 @@
 <template>
-  <div id="">
+  <div>
    Charlasssssss
    <app-filters/>
    <ul v-for="(speaker, index) in speakersData"
@@ -21,7 +21,7 @@
   </div>
 </template>
 <script>
-import { getSpeakers, createNewSpeaker } from '../services/services'
+import { getSpeakers } from '../services/services'
 import AppFilters from '../components/AppFilters'
 export default {
   name: 'Talks',
@@ -31,7 +31,8 @@ export default {
           speakersData: JSON.parse(localStorage.getItem('data')),
       }
   },
-  methods: {}
+  methods: {
+  }
 }
 </script>
 <style lang="scss">

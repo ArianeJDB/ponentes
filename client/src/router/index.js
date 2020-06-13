@@ -6,6 +6,7 @@ import Talks from '../views/Talks'
 import TalkDetail from '../views/TalkDetail'
 import Speakers from '../views/Speakers'
 import SpeakerDetail from '../views/SpeakerDetail'
+import Login from '../views/Login'
 Vue.use(VueRouter)
 
 const routes = [
@@ -38,7 +39,12 @@ const routes = [
     path: '/speaker/:speakerId',
     name: 'SpeakerDetail',
     component: SpeakerDetail
-  }
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
+  },
 ]
 
 const router = new VueRouter({

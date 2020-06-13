@@ -1,10 +1,9 @@
 'use strict';
 
-const apiBaseUrl = 'https://localhost:3443/api/speakers'
+const apiBaseUrl = 'http://localhost:3443/'
 export function getSpeakers() {
-    
 
-    return fetch(apiBaseUrl).then(response => response.json())
+    return fetch(`${apiBaseUrl}speakers`).then(response => response.json())
 }
 
 export function createNewSpeaker() {
@@ -13,6 +12,6 @@ export function createNewSpeaker() {
         method: 'POST',
         headers
     }
-    fetch(apiBaseUrl, options)
+    fetch(`${apiBaseUrl}register`, options)
         .then(response => response.json())
 }

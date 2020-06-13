@@ -6,6 +6,7 @@
         <router-link to="/speakers">Ver Ponentes</router-link>
         Si quieres dar de alta a tu charla y que los eventos la tengan en cuenta, date de alta aquí =)
      <router-link to="/registration">Registrarse</router-link>
+     <router-link to="/login">LOGIN</router-link>
       </div>
     
 

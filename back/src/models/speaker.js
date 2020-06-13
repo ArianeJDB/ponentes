@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const TalksSchema = new Schema({
-  title: { type: String, required: true, unique: true },
+  title: { type: String, required: true },
   description: String,
   isRepeated: { type: Boolean, default: false },
 }, { versionKey: false });

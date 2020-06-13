@@ -3,7 +3,7 @@ const loginController = require('../controllers/login');
 
 
 const createLoginRouter = (router) => {
-  router.post('/login', loginController);
+  router.post('/login', passport.authenticate('basic', { session: false }), loginController);
   return router;
 };
 

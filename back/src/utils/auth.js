@@ -8,15 +8,13 @@ const verifyPassword = async (speaker, password) => security.compare(password, s
 function verify(email, password, cb) {
     findOneWithPassword({ email })
       .then(speaker => {
-          console.log('verify')
-          console.log(speaker)
         if (!speaker) {
           return cb(null, false, new Error('User not found'));
         }
         verifyPassword(speaker, password)
             .then(verification => {
               if (verification) {
-                return cb(null, speaker);
+                return cb(null, { ...speaker, password });
               }
               return cb(null, false, new Error('Incorrect password'));
             })

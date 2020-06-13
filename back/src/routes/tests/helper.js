@@ -12,13 +12,15 @@ const logOutUser = () => { delete httpClient.defaults.headers['authorization'] }
 
 const createApi = async () => {
     const api = await runApi(port)
-    const login = (email, password) => httpClient.post('/login', { email, password });
-    const close = () => api.close()
     return {
-        login,
-        close,
         logInUser,
         logOutUser,
+        close: () => api.close(),
+        getSpeaker: (id) => httpClient.get(`/speakers/${id}`),
+        register: (data) => httpClient.post('/register', data),
+        deleteSpeaker: (id) => httpClient.delete(`/speakers/${id}`),
+        createTalk: (speakerId, talk) => httpClient.post(`/speakers/${speakerId}`, talk),
+        login: (email, password) => httpClient.post('/login', { email, password }),
     }
 }
 

@@ -43,7 +43,7 @@ const findOne = async (params) => new Promise(async (resolve, reject) => {
 
 const findOneWithPassword = async (params) => new Promise(async (resolve, reject) => {
   try {
-    const speaker = await Speaker.findOne(params).lean().exec();
+    const speaker = await Speaker.findOne(params, { password: 1, email: 1 }).lean().exec();
     resolve(speaker);
   } catch (ex) {
     reject(ex);
@@ -76,4 +76,5 @@ module.exports = {
   update,
   findOne,
   findById,
+  findOneWithPassword
 };

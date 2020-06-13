@@ -1,17 +1,18 @@
 const security = require('../lib/security');
 
-const { findOne } = require('../queries/speaker');
+const { findOneWithPassword } = require('../queries/speaker');
 
 
 const verifyPassword = async (speaker, password) => security.compare(password, speaker.password);
 
 function verify(email, password, cb) {
-    findOne({ email })
+    findOneWithPassword({ email })
       .then(speaker => {
+          console.log('verify')
+          console.log(speaker)
         if (!speaker) {
           return cb(null, false, new Error('User not found'));
         }
-
         verifyPassword(speaker, password)
             .then(verification => {
               if (verification) {

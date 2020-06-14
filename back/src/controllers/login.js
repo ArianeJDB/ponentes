@@ -17,7 +17,7 @@ module.exports = function login(req, res) {
     } else {
       const opts = { expiresIn: 30000 };
       const { password, talks, _id,...rest } = data
-      const token = jwt.sign({ rest }, SECRET_KEY, opts);
+      const token = jwt.sign({ ...rest }, SECRET_KEY, opts);
 
       return res.status(200).send({ message: 'Auth Passed', token, speakerData: rest });
     }

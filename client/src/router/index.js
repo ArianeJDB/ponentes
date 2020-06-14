@@ -1,12 +1,16 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import Registration from '../views/Registration'
+import AppRegistrationForm from '../components/AppRegistrationForm'
 import Talks from '../views/Talks'
 import TalkDetail from '../views/TalkDetail'
 import Speakers from '../views/Speakers'
 import SpeakerDetail from '../views/SpeakerDetail'
 import Login from '../views/Login'
+import SpeakerProfile from '../views/SpeakerProfile'
+import EditProfile from '../views/EditProfile'
+import NewTalk from '../views/NewTalk'
+import EditTalk from '../views/EditTalk'
 Vue.use(VueRouter)
 
 const routes = [
@@ -17,8 +21,8 @@ const routes = [
   },
   {
     path: '/registration',
-    name: 'Registration',
-    component: Registration
+    name: 'AppRegistrationForm',
+    component: AppRegistrationForm
   },
   {
     path: '/talks',
@@ -45,6 +49,28 @@ const routes = [
     name: 'Login',
     component: Login
   },
+  {
+    path: '/my-profile',
+    name: 'SpeakerProfile',
+    component: SpeakerProfile
+  },
+  {
+    path: '/edit-profile/:id',
+    name: 'EditProfile',
+    component: EditProfile
+  },
+  {
+    path: '/speaker/:speakerId/new-talk',
+    name: 'NewTalk',
+    component: NewTalk
+  },
+  {
+    path: '/speaker/:speakerId/edit-talk/:talkId',
+    name: 'EditTalk',
+    component: EditTalk
+  },
+  
+  
 ]
 
 const router = new VueRouter({

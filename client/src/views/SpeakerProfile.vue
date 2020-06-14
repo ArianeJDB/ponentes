@@ -1,25 +1,51 @@
 <template>
     <div>
-      Tu perfil con tu info, para editar y añadir/edirtar charlas
+        <div> {{speakerData.name}}</div>
+        <div> {{speakerData.email}}</div>
+        <div> {{speakerData.biography}}</div>
+        <div> {{speakerData.name}}</div>
+        <div> {{speakerData.linkedin}}</div>
+        <div> {{speakerData.github}}</div>
+        <div> {{speakerData.twitter}}</div>
+        <div> {{speakerData.website}}</div>
+       Charlas:
+       <ul>
+           <li v-for="(talk, index) in speakerData.talks" :key="index">
+               {{talk.title}}
+               {{talk.description}}
+               <router-link :to="`/speaker/${speakerData._id}/edit-talk/${talk._id}`">Editar esta charla</router-link>
+           </li>
+       </ul>
+     <router-link :to="`/edit-profile/${speakerData._id}`">editar mi perfil</router-link>
+
+     <router-link :to="`/speaker/${speakerData._id}/new-talk`">Añadir Charla</router-link>
+
     </div>
 </template>
 <script>
-import { login } from '../services/services'
 export default {
   name: 'Login',
   components: {},
   data() {
       return {
-          email: null,
-          password: null
+        speakerData: null
       }
   },
+  mounted() {
+      this.getSpeakerData()
+  },
   methods: {
-      sendLogin() {
-          login(this.email, this.password)
+    getSpeakerData() {
+        const data = JSON.parse(localStorage.getItem('data'));
+        const email= JSON.parse(localStorage.getItem('email'));
+        const speakerData = data.filter(speaker => speaker.email === email)
+        speakerData.map(item => this.speakerData = item)
+      console.log(this.speakerData.name) 
+      },
+      goToAddNewTalk() {
+
       }
           
-       
   }
 }
 </script>

@@ -36,7 +36,8 @@ export function login(email, password) {
     })
         .then(response => response.json())
         .then(data => {
-            localStorage.setItem('token', JSON.stringify(data))
+            localStorage.setItem('token', JSON.stringify(data.token))
+            localStorage.setItem('email', JSON.stringify(data.speakerData.email))
       })
       .catch (error => {
         throw error

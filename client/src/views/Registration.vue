@@ -26,29 +26,13 @@
       <input type="text" v-model="titleTalk">
           <label for="bio">Descripción de tu charla</label>
       <textarea name="descriptionTalk" id="" cols="30" rows="10" v-model="descriptionTalk"></textarea>
-      ¿Has dado ya esta charla en otro evento?
-        <label for="">Sí</label>
-        <input type="radio" name="isRepeated" v-model="isRepeated">
-        <label for="">No</label>
-        <input type="radio" name="isNotRepeated" v-model="isNotRepeated">
+      
+        <label for="">¿Has dado ya esta charla en otro evento?</label>
+        <input type="checkbox" name="isRepeated" v-model="isRepeated">
+       <button type="button"  @click="setPayload">Enviar</button>
     </form>
-    name: {{this.name}}
-    email: {{this.email}}
-    password: {{this.password}}
-    bio: {{this.bio}}
-  twitter: {{this.twitter}}
-  github: {{this.github}}
-  linkedin: {{this.linkedin}}
-  website: {{this.website}}
-  titulo: {{this.titleTalk}}
-  descriptionTalk: {{this.descriptionTalk}}
-  está repetida: {{this.isRepeated}}
-  está NO repetida: {{this.isNotRepeated}}
-
-
-
-
   
+
     </div>
 </template>
 
@@ -72,7 +56,6 @@ export default {
       titleTalk: null,
       descriptionTalk: null,
       isRepeated: false,
-      isNotRepeated: false,
       payload: {}
     }
   },
@@ -82,19 +65,23 @@ export default {
       this.selectedPic = pic
     },
     setPayload() {
-      this.payload = {
-        name, email, password, bio, pic, twitter, github, linkedin, website, talks: [{ titleTalk, descriptionTalk, isRepeated}]
+      const payload = {
+        name: this.name, 
+        email: this.email,
+        password: this.password,
+        biography: this.bio,
+        twitter: this.twitter,
+        github: this.github,
+        linkedin: this.linkedin,
+        website: this.website,
+        talks: [{
+          title: this.titleTalk,
+          description: this.descriptionTalk, isRepeated: this.isRepeated
+          }]
       }
-    }
-    // register() {
-    //   createNewSpeaker()
-    //     .then(data => {
-    //       console.log('post data', data)
-    //     })
-    //     .catch (error => {
-    //       throw error
-    //     })
-    // }
+      createNewSpeaker(payload)
+    },
+
   }
 }
 </script>

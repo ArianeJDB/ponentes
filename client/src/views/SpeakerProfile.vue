@@ -1,13 +1,6 @@
 <template>
     <div>
-       LOGIN
-       <form action="">
-           <label for="email">Email</label>
-           <input type="text" v-model="email">
-           <label for="password">Password</label>
-           <input type="password" v-model="password">
-           <button type="button"  @click="sendLogin">Enviar</button>
-       </form>
+      Tu perfil con tu info, para editar y añadir/edirtar charlas
     </div>
 </template>
 <script>

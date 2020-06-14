@@ -82,3 +82,24 @@ export function editSpeaker(speakerId, payload) {
         throw error
       })
 }
+
+export function editTalk(speakerId, talkId, payload) {
+    console.log('desde services edit talk', payload)
+    const token = JSON.parse(localStorage.getItem('token'))
+    const headers = new Headers()
+    headers.set('Authorization', 'Bearer ' + token);
+    headers.set('Content-Type', 'application/json')
+    fetch(`${apiBaseUrl}speaker/${speakerId}/edit-talk/${talkId}`, {
+        method: 'PUT',
+        body: JSON.stringify(payload),
+        headers
+        
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+      })
+      .catch (error => {
+        throw error
+      })
+}

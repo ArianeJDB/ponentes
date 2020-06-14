@@ -107,15 +107,28 @@ export default {
         this.github = speakerData.github
         this.linkedin = speakerData.linkedin
         this.website = speakerData.website
-        this.titleTalk = speakerData.talks.map(item => {
+        speakerData.talks.map(item => {
             this.titleTalk = item.title
             this.descriptionTalk = item.description
             this.isRepeated = item.isRepeated
             })
       }
-      if (this.$route.name === "NewTalk" || this.$route.name === "EditTalk") {
+      if (this.$route.name === "NewTalk") {
           this.addTalk = false
       }
+      if(this.$route.name === "EditTalk") {
+        this.addTalk = false
+        const speakerData = JSON.parse(localStorage.getItem('speakerData'));
+        const talkId = this.$route.params.talkId
+        const selectedTalk = speakerData.talks.filter(item => item._id === talkId)
+        selectedTalk.map(item => {
+            this.titleTalk = item.title
+            this.descriptionTalk = item.description
+            this.isRepeated = item.isRepeated
+
+        })
+      }
+      
     },
     sendNewTalk(event) {
         console.log('send new talk')
@@ -150,6 +163,18 @@ export default {
       console.log('edit spekaer', payload)
         this.$emit('speakerEdited', payload)
     },
+    sendTalkEdited(event) {
+        console.log('send talk edited')
+        const talk = []
+        const payload = {
+            title: this.titleTalk,
+            description: this.descriptionTalk,
+            isRepeated: this.isRepeated
+        }
+        talk.push(payload)
+        console.log('sentalkedited', talk)
+        this.$emit('talkEdited', talk)
+    },
     setMethodButton() {
         if (this.$route.name === "AppRegistrationForm") {
         this.addNewSpeaker()
@@ -157,7 +182,7 @@ export default {
         console.log('aqui EDIT PROFILE')
         this.sendSpeakerEdited()
       } else if (this.$route.name === "EditTalk") {
-        
+          this.sendTalkEdited()
       }
        else if (this.$route.name === "NewTalk") {
         this.sendNewTalk()

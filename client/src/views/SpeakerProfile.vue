@@ -33,18 +33,22 @@ export default {
   },
   mounted() {
       this.getSpeakerData()
+      
+
   },
   methods: {
     getSpeakerData() {
         const data = JSON.parse(localStorage.getItem('data'));
         const email= JSON.parse(localStorage.getItem('email'));
         const speakerData = data.filter(speaker => speaker.email === email)
-        speakerData.map(item => this.speakerData = item)
-      console.log(this.speakerData.name) 
-      },
-      goToAddNewTalk() {
+        speakerData.map(item => {
+          this.speakerData = item
+          localStorage.setItem('speakerData', JSON.stringify(item))
 
-      }
+          })
+ 
+      },
+
           
   }
 }

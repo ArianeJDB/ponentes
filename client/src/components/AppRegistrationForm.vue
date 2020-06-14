@@ -71,30 +71,47 @@ export default {
       const pic = this.$refs.file.files[0];
       this.selectedPic = pic;
     },
-    addNewSpeaker() {
-      const payload = {
-        name: this.name,
-        email: this.email,
-        password: this.password,
-        biography: this.bio,
-        twitter: this.twitter,
-        github: this.github,
-        linkedin: this.linkedin,
-        website: this.website,
-        talks: [
-          {
-            title: this.titleTalk,
-            description: this.descriptionTalk,
-            isRepeated: this.isRepeated
-          }
-        ]
-      };
+    setPayload() {
+        const payload = {
+            name: this.name,
+            email: this.email,
+            password: this.password,
+            biography: this.bio,
+            twitter: this.twitter,
+            github: this.github,
+            linkedin: this.linkedin,
+            website: this.website,
+            talks: [
+            {
+                title: this.titleTalk,
+                description: this.descriptionTalk,
+                isRepeated: this.isRepeated
+            }
+            ]
+        };
+      this.addNewSpeaker(payload)
+    },
+    addNewSpeaker(payload) {
       createNewSpeaker(payload);
     },
     setViewsAsPage() {
       console.log(this.$route.name);
       if (this.$route.name === "EditProfile") {
+          console.log('holaaaaaa')
         this.editPage = false;
+        const speakerData = JSON.parse(localStorage.getItem('speakerData'));
+        this.email = speakerData.email
+        this.name = speakerData.name
+        this.bio = speakerData.biography
+        this.twitter = speakerData.twitter
+        this.github = speakerData.github
+        this.linkedin = speakerData.linkedin
+        this.website = speakerData.website
+        this.titleTalk = speakerData.talks.map(item => {
+            this.titleTalk = item.title
+            this.descriptionTalk = item.description
+            this.isRepeated = item.isRepeated
+            })
       }
       if (this.$route.name === "NewTalk" || this.$route.name === "EditTalk") {
           this.addTalk = false
@@ -111,16 +128,38 @@ export default {
         talks.push(payload)
         this.$emit('newTalk', talks)
     },
+    sendSpeakerEdited(event) {
+        console.log('EDIITTTTTTT')
+        const payload = {
+        name: this.name,
+        email: this.email,
+        password: this.password,
+        biography: this.bio,
+        twitter: this.twitter,
+        github: this.github,
+        linkedin: this.linkedin,
+        website: this.website,
+        talks: [
+          {
+            title: this.titleTalk,
+            description: this.descriptionTalk,
+            isRepeated: this.isRepeated
+          }
+        ]
+      };
+      console.log('edit spekaer', payload)
+        this.$emit('speakerEdited', payload)
+    },
     setMethodButton() {
         if (this.$route.name === "AppRegistrationForm") {
         this.addNewSpeaker()
       } else if (this.$route.name === "EditProfile") {
-        
+        console.log('aqui EDIT PROFILE')
+        this.sendSpeakerEdited()
       } else if (this.$route.name === "EditTalk") {
         
       }
        else if (this.$route.name === "NewTalk") {
-           console.log('aqui=')
         this.sendNewTalk()
       }
     }

@@ -44,13 +44,32 @@ export function login(email, password) {
 }
 
 export function createNewTalk(speakerId, payload) {
-    console.log('desde services',speakerId, payload)
     const token = JSON.parse(localStorage.getItem('token'))
     const headers = new Headers()
     headers.set('Authorization', 'Bearer ' + token);
     headers.set('Content-Type', 'application/json')
     fetch(`${apiBaseUrl}speakers/${speakerId}/talks`, {
         method: 'POST',
+        body: JSON.stringify(payload),
+        headers
+        
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+      })
+      .catch (error => {
+        throw error
+      })
+}
+
+export function editSpeaker(speakerId, payload) {
+    const token = JSON.parse(localStorage.getItem('token'))
+    const headers = new Headers()
+    headers.set('Authorization', 'Bearer ' + token);
+    headers.set('Content-Type', 'application/json')
+    fetch(`${apiBaseUrl}speakers/${speakerId}`, {
+        method: 'PUT',
         body: JSON.stringify(payload),
         headers
         

@@ -26,7 +26,6 @@ export function createNewSpeaker(payload) {
 }
 
 export function login(email, password) {
-    console.log('services', email, password)
     const headers = new Headers()
     headers.set('Authorization', 'Basic ' + btoa(email + ":" + password));
 
@@ -38,6 +37,27 @@ export function login(email, password) {
         .then(data => {
             localStorage.setItem('token', JSON.stringify(data.token))
             localStorage.setItem('email', JSON.stringify(data.speakerData.email))
+      })
+      .catch (error => {
+        throw error
+      })
+}
+
+export function createNewTalk(speakerId, payload) {
+    console.log('desde services',speakerId, payload)
+    const token = JSON.parse(localStorage.getItem('token'))
+    const headers = new Headers()
+    headers.set('Authorization', 'Bearer ' + token);
+    headers.set('Content-Type', 'application/json')
+    fetch(`${apiBaseUrl}speakers/${speakerId}/talks`, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers
+        
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
       })
       .catch (error => {
         throw error

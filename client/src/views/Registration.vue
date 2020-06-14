@@ -1,5 +1,5 @@
 <template>
-<div>
+<!-- <div>
     <h1>Reigstrateeeee</h1>
     <form action="">
       <label for="email">Email</label>
@@ -33,55 +33,55 @@
     </form>
   
 
-    </div>
+    </div> -->
 </template>
 
-<script>
-import { createNewSpeaker } from '../services/services'
-export default {
-  name: 'Registration',
-  components: {},
-  data() {
-    return {
-      name: null,
-      email: null,
-      password: null,
-      bio: null,
-      pic: null,
-      twitter: null,
-      github: null,
-      linkedin: null,
-      website: null,
-      selectedPic: null,
-      titleTalk: null,
-      descriptionTalk: null,
-      isRepeated: false,
-      payload: {}
-    }
-  },
-  methods: {
-    uploadPic(event) {
-      const pic = this.$refs.file.files[0];
-      this.selectedPic = pic
-    },
-    setPayload() {
-      const payload = {
-        name: this.name, 
-        email: this.email,
-        password: this.password,
-        biography: this.bio,
-        twitter: this.twitter,
-        github: this.github,
-        linkedin: this.linkedin,
-        website: this.website,
-        talks: [{
-          title: this.titleTalk,
-          description: this.descriptionTalk, isRepeated: this.isRepeated
-          }]
-      }
-      createNewSpeaker(payload)
-    },
+ <script>
+// import { createNewSpeaker } from '../services/services'
+// export default {
+//   name: 'Registration',
+//   components: {},
+//   data() {
+//     return {
+//       name: null,
+//       email: null,
+//       password: null,
+//       bio: null,
+//       pic: null,
+//       twitter: null,
+//       github: null,
+//       linkedin: null,
+//       website: null,
+//       selectedPic: null,
+//       titleTalk: null,
+//       descriptionTalk: null,
+//       isRepeated: false,
+//       payload: {}
+//     }
+//   },
+//   methods: {
+//     uploadPic(event) {
+//       const pic = this.$refs.file.files[0];
+//       this.selectedPic = pic
+//     },
+//     setPayload() {
+//       const payload = {
+//         name: this.name, 
+//         email: this.email,
+//         password: this.password,
+//         biography: this.bio,
+//         twitter: this.twitter,
+//         github: this.github,
+//         linkedin: this.linkedin,
+//         website: this.website,
+//         talks: [{
+//           title: this.titleTalk,
+//           description: this.descriptionTalk, isRepeated: this.isRepeated
+//           }]
+//       }
+//       createNewSpeaker(payload)
+//     },
 
-  }
-}
-</script>
+//   }
+// }
+// </script>

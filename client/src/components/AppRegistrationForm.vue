@@ -33,7 +33,7 @@
 
       <label for>¿Has dado ya esta charla en otro evento?</label>
       <input type="checkbox" name="isRepeated" v-model="isRepeated" />
-      <button type="button" @click="setPayload">Enviar</button>
+      <button type="button" @click="setMethodButton">Enviar</button>
     </form>
   </div>
 </template>
@@ -64,14 +64,14 @@ export default {
     };
   },
   mounted() {
-    this.isEditPage();
+    this.setViewsAsPage();
   },
   methods: {
     uploadPic(event) {
       const pic = this.$refs.file.files[0];
       this.selectedPic = pic;
     },
-    setPayload() {
+    addNewSpeaker() {
       const payload = {
         name: this.name,
         email: this.email,
@@ -91,13 +91,37 @@ export default {
       };
       createNewSpeaker(payload);
     },
-    isEditPage() {
+    setViewsAsPage() {
       console.log(this.$route.name);
       if (this.$route.name === "EditProfile") {
         this.editPage = false;
       }
       if (this.$route.name === "NewTalk" || this.$route.name === "EditTalk") {
           this.addTalk = false
+      }
+    },
+    sendNewTalk(event) {
+        console.log('send new talk')
+        const talks = []
+        const payload = {
+            title: this.titleTalk,
+            description: this.descriptionTalk,
+            isRepeated: this.isRepeated
+        }
+        talks.push(payload)
+        this.$emit('newTalk', talks)
+    },
+    setMethodButton() {
+        if (this.$route.name === "AppRegistrationForm") {
+        this.addNewSpeaker()
+      } else if (this.$route.name === "EditProfile") {
+        
+      } else if (this.$route.name === "EditTalk") {
+        
+      }
+       else if (this.$route.name === "NewTalk") {
+           console.log('aqui=')
+        this.sendNewTalk()
       }
     }
   }

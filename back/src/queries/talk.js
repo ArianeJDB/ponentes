@@ -14,7 +14,7 @@ const create = (speakerId, talk) => new Promise(async (resolve, reject) => {
 const update = (speakerId, talkId, talk) => new Promise(async (resolve, reject) => {
   try {
     const id = { _id: speakerId, 'talks._id': talkId };
-    const update = { $set: { 'talk.$': talk } };
+    const update = { $set: { 'talks.$': talk } };
     const updatedTalk = await Speaker.findOneAndUpdate(id, update, { multi: true }).exec();
     resolve(updatedTalk);
   } catch (ex) {

@@ -89,7 +89,7 @@ export function editTalk(speakerId, talkId, payload) {
     const headers = new Headers()
     headers.set('Authorization', 'Bearer ' + token);
     headers.set('Content-Type', 'application/json')
-    fetch(`${apiBaseUrl}speaker/${speakerId}/edit-talk/${talkId}`, {
+    fetch(`${apiBaseUrl}speakers/${speakerId}/talks/${talkId}`, {
         method: 'PUT',
         body: JSON.stringify(payload),
         headers

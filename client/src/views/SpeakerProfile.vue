@@ -3,7 +3,6 @@
         <div> {{speakerData.name}}</div>
         <div> {{speakerData.email}}</div>
         <div> {{speakerData.biography}}</div>
-        <div> {{speakerData.name}}</div>
         <div> {{speakerData.linkedin}}</div>
         <div> {{speakerData.github}}</div>
         <div> {{speakerData.twitter}}</div>
@@ -24,27 +23,26 @@
 </template>
 <script>
 export default {
-  name: 'Login',
+  name: 'SpeakerProfile',
   components: {},
   data() {
       return {
-        speakerData: null
+        speakerData: {}
       }
   },
   mounted() {
       this.getSpeakerData()
-      
-
   },
   methods: {
     getSpeakerData() {
         const data = JSON.parse(localStorage.getItem('data'));
         const email= JSON.parse(localStorage.getItem('email'));
         const speakerData = data.filter(speaker => speaker.email === email)
+        // console.log('99',speakerData)
         speakerData.map(item => {
           this.speakerData = item
           localStorage.setItem('speakerData', JSON.stringify(item))
-
+          
           })
  
       },

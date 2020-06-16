@@ -68,9 +68,8 @@ const routes = [
     path: '/speaker/:speakerId/edit-talk/:talkId',
     name: 'EditTalk',
     component: EditTalk
-  },
-  
-  
+  }
+
 ]
 
 const router = new VueRouter({

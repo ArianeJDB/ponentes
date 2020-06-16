@@ -75,5 +75,5 @@ module.exports = {
   update,
   findOne,
   findById,
-  findOneWithPassword
+  findOneWithPassword,
 };

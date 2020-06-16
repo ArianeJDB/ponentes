@@ -1,4 +1,3 @@
-
 const { hash } = require('../lib/security');
 const {
   find: findSpeakers, create, findOne, findById, update, remove,
@@ -39,7 +38,6 @@ async function createSpeaker(req, res, next) {
 
 // addSpeaker(admin.email, admin.passwordHash)
 
-
 // esto no he entendido muy bien para qué es
 async function addSpeaker(email, password) {
   // const email = req.body.email
@@ -77,7 +75,6 @@ async function deleteSpeaker(req, res, next) {
     next(ex);
   }
 }
-
 
 module.exports = {
   getSpeakers,

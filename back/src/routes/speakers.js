@@ -1,4 +1,3 @@
-
 const passport = require('passport');
 const speakerController = require('../controllers/speakers');
 const talkController = require('../controllers/talks');

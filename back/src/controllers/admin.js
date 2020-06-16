@@ -1,4 +1,3 @@
-
 const { find, create } = require('../queries/admin');
 
 async function createAdmin(req, res, next) {

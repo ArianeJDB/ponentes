@@ -38,7 +38,6 @@ async function deleteTalk(req, res, next) {
   }
 }
 
-
 module.exports = {
   addTalk,
   updateTalk,

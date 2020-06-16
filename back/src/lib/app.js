@@ -13,41 +13,40 @@ const { find } = require('../queries/speaker');
 const createRouter = require('../routes');
 
 const createApp = (port) => {
-    const app = express();
+  const app = express();
 
-    // esto es una comprobación mínima de seguridad
-    app.use(helmet());
-    app.disable('x-powered-by');
+  // esto es una comprobación mínima de seguridad
+  app.use(helmet());
+  app.disable('x-powered-by');
 
-    const SECRET_KEY = 'SECRET_KEY';
+  const SECRET_KEY = 'SECRET_KEY';
 
-    passport.use(new BasicStrategy(verify));
+  passport.use(new BasicStrategy(verify));
 
-    app.use(passport.initialize());
+  app.use(passport.initialize());
 
-    const jwtOpts = {
-        jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-        secretOrKey: SECRET_KEY,
-    };
+  const jwtOpts = {
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: SECRET_KEY,
+  };
 
-    passport.use(new JwtStrategy(jwtOpts, async (payload, done) => {
-        const speaker = await find({ email: payload.email });
-        if (speaker.length) {
-            return done(null, speaker);
-        }
-        return done(null, false, { message: 'Speaker not found' });
-    }));
+  passport.use(new JwtStrategy(jwtOpts, async (payload, done) => {
+    const speaker = await find({ email: payload.email });
+    if (speaker.length) {
+      return done(null, speaker);
+    }
+    return done(null, false, { message: 'Speaker not found' });
+  }));
 
-    app.use(bodyParser.urlencoded({ extended: false }));
-    app.use(bodyParser.json());
-    app.use(cors());
-    app.use(createRouter());
+  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.json());
+  app.use(cors());
+  app.use(createRouter());
 
-    app.use((err, req, res) => {
-        res.status(500).send({ message: 'Something broke!' });
-    });
-    return app.listen(port);
+  app.use((err, req, res) => {
+    res.status(500).send({ message: 'Something broke!' });
+  });
+  return app.listen(port);
 };
-
 
 module.exports = createApp;

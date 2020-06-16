@@ -6,7 +6,6 @@ jest.mock('jsonwebtoken', () => ({
   },
 }));
 
-
 describe('Login Unit Test Suite', () => {
   it('returns 201 when everything is ok', () => {
     const reqMocked = { body: { email: 300 } };

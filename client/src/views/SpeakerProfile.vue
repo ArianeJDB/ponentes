@@ -38,7 +38,6 @@ export default {
         const data = JSON.parse(localStorage.getItem('data'));
         const email= JSON.parse(localStorage.getItem('email'));
         const speakerData = data.filter(speaker => speaker.email === email)
-        // console.log('99',speakerData)
         speakerData.map(item => {
           this.speakerData = item
           localStorage.setItem('speakerData', JSON.stringify(item))

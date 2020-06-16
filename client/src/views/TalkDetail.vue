@@ -41,7 +41,6 @@ export default {
         getSpeakerData() {
             const selectedSpeaker = this.speakersData.filter(speaker => speaker._id === this.speakerId)
             selectedSpeaker.map(item => this.selectedSpeaker = item)
-            console.log('tt',this.selectedSpeaker)
             this.getTalkData()
         },
         getTalkData() {

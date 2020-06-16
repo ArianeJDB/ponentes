@@ -13,8 +13,6 @@
         <input type="text" v-model="name" />
         <label for="bio">Descripción/biografía</label>
         <textarea name="bio" cols="30" rows="10" v-model="bio"></textarea>
-        <label for="pic">Sube una foto tuya</label>
-        <input type="file" ref="file" @change="uploadPic" />
         <button>Guardar</button>
         <label for="twitter">Twitter</label>
         <input type="text" v-model="twitter" />
@@ -51,7 +49,6 @@ export default {
       email: null,
       password: null,
       bio: null,
-      pic: null,
       twitter: null,
       github: null,
       linkedin: null,
@@ -69,14 +66,6 @@ export default {
     this.setViewsAsPage();
   },
   methods: {
-    uploadPic(event) {
-      const pic = this.$refs.file.files[0];
-      this.selectedPic = pic;
-    },
-    // setPayload() {
-
-    //   this.addNewSpeaker(payload)
-    // },
     addNewSpeaker() {
       const payload = {
         name: this.name,
@@ -98,7 +87,6 @@ export default {
       createNewSpeaker(payload);
     },
     setViewsAsPage() {
-      console.log(this.$route.name);
       if (this.$route.name === "EditProfile") {
         this.editPage = false;
         this.editProfile = false;
@@ -134,7 +122,6 @@ export default {
       }
     },
     sendNewTalk(event) {
-      console.log("send new talk");
       const talks = [];
       const payload = {
         title: this.titleTalk,
@@ -145,7 +132,6 @@ export default {
       this.$emit("newTalk", talks);
     },
     sendSpeakerEdited(event) {
-      console.log("EDIITTTTTTT");
       const payload = {
         name: this.name,
         email: this.email,
@@ -163,11 +149,9 @@ export default {
           }
         ]
       };
-      console.log("edit spekaer", payload);
       this.$emit("speakerEdited", payload);
     },
     sendTalkEdited(event) {
-      console.log("send talk edited");
       const talk = [];
       const payload = {
         title: this.titleTalk,
@@ -175,7 +159,6 @@ export default {
         isRepeated: this.isRepeated
       };
       talk.push(payload);
-      console.log("sentalkedited", talk);
       this.$emit("talkEdited", talk);
     },
     setMethodButton() {

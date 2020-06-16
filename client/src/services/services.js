@@ -8,7 +8,6 @@ export function getSpeakers() {
 }
 
 export function createNewSpeaker(payload) {
-    console.log('payload que recibe', payload)
     fetch(`${apiBaseUrl}register`, {
         method: 'POST',
         body: JSON.stringify(payload),
@@ -18,7 +17,6 @@ export function createNewSpeaker(payload) {
     })
         .then(response => response.json())
         .then(data => {
-        console.log('speaker registrado?', data)
       })
       .catch (error => {
         throw error
@@ -84,7 +82,6 @@ export function editSpeaker(speakerId, payload) {
 }
 
 export function editTalk(speakerId, talkId, payload) {
-    console.log('desde services edit talk', payload)
     const token = JSON.parse(localStorage.getItem('token'))
     const headers = new Headers()
     headers.set('Authorization', 'Bearer ' + token);

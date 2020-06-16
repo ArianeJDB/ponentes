@@ -44,15 +44,12 @@ async function createSpeaker(req, res, next) {
 async function addSpeaker(email, password) {
   // const email = req.body.email
   // const password = req.body.password
-  console.log('ADDSPEAKER', email, password);
   const passwordHash = await hash(password);
 
   findOne({ email }, async (error, speaker) => {
     if (!speaker) {
-      console.log('holita', speaker);
       speaker = new Speaker({ email, passwordHash });
     } else {
-      console.log('chaita', speaker);
       speaker.passwordHash = passwordHash;
     }
     await speaker.save();

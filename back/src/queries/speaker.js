@@ -53,7 +53,6 @@ const findOneWithPassword = async (params) => new Promise(async (resolve, reject
 const update = async (id, data) => new Promise(async (resolve, reject) => {
   try {
     const updated = await Speaker.findByIdAndUpdate(id, data).lean().exec();
-    console.log(updated);
     resolve(updated);
   } catch (ex) {
     reject(ex);

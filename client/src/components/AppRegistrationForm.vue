@@ -1,20 +1,25 @@
 <template>
-  <div>
+  <div class="registration_section">
     <h1>Reigstrateeeee</h1>
-    <form action>
-      <div v-if="addTalk">
-        <label for="email">Email</label>
-        <input type="text" v-model="email" />
-        <div v-if="editProfile">
-          <label for="password">Contraseña</label>
-          <input type="password" v-model="password" />
+    <form class="form">
+      <div class="personal_info" v-if="addTalk">
+        <div class="name-email">
+          <label for="name">Nombre</label>
+          <input type="text" v-model="name" />
+          <label for="email">Email</label>
+          <input type="text" v-model="email" />
+          <div v-if="editProfile">
+            <label for="password">Contraseña</label>
+            <input type="password" v-model="password" />
+          </div>
+
         </div>
-        <label for="name">Nombre</label>
-        <input type="text" v-model="name" />
-        <label for="bio">Descripción/biografía</label>
-        <textarea name="bio" cols="30" rows="10" v-model="bio"></textarea>
-        <button>Guardar</button>
-        <label for="twitter">Twitter</label>
+        <div class="description">
+          <label for="bio">Descripción/biografía</label>
+          <textarea name="bio" cols="30" rows="10" v-model="bio"></textarea>
+        </div>
+        <div class="rrss">
+          <label for="twitter">Twitter</label>
         <input type="text" v-model="twitter" />
         <label for="linkedin">LinkedIn</label>
         <input type="text" v-model="linkedin" />
@@ -22,13 +27,22 @@
         <input type="text" v-model="github" />
         <label for="website">Website</label>
         <input type="text" v-model="website" />
+        </div>
       </div>
-      <div v-if="editProfile">
+
+
+      <div class="talks_info" v-if="editProfile">
         CHARLAS
         <label for="title">Título de tu charla</label>
         <input type="text" v-model="titleTalk" />
         <label for="bio">Descripción de tu charla</label>
-        <textarea name="descriptionTalk" id cols="30" rows="10" v-model="descriptionTalk"></textarea>
+        <textarea
+          name="descriptionTalk"
+          id
+          cols="30"
+          rows="10"
+          v-model="descriptionTalk"
+        ></textarea>
 
         <label for>¿Has dado ya esta charla en otro evento?</label>
         <input type="checkbox" name="isRepeated" v-model="isRepeated" />
@@ -59,7 +73,7 @@ export default {
       isRepeated: false,
       payload: {},
       addTalk: true,
-      editProfile: true
+      editProfile: true,
     };
   },
   mounted() {
@@ -80,9 +94,9 @@ export default {
           {
             title: this.titleTalk,
             description: this.descriptionTalk,
-            isRepeated: this.isRepeated
-          }
-        ]
+            isRepeated: this.isRepeated,
+          },
+        ],
       };
       createNewSpeaker(payload);
     },
@@ -98,7 +112,7 @@ export default {
         this.github = speakerData.github;
         this.linkedin = speakerData.linkedin;
         this.website = speakerData.website;
-        speakerData.talks.map(item => {
+        speakerData.talks.map((item) => {
           this.titleTalk = item.title;
           this.descriptionTalk = item.description;
           this.isRepeated = item.isRepeated;
@@ -112,9 +126,9 @@ export default {
         const speakerData = JSON.parse(localStorage.getItem("speakerData"));
         const talkId = this.$route.params.talkId;
         const selectedTalk = speakerData.talks.filter(
-          item => item._id === talkId
+          (item) => item._id === talkId
         );
-        selectedTalk.map(item => {
+        selectedTalk.map((item) => {
           this.titleTalk = item.title;
           this.descriptionTalk = item.description;
           this.isRepeated = item.isRepeated;
@@ -126,7 +140,7 @@ export default {
       const payload = {
         title: this.titleTalk,
         description: this.descriptionTalk,
-        isRepeated: this.isRepeated
+        isRepeated: this.isRepeated,
       };
       talks.push(payload);
       this.$emit("newTalk", talks);
@@ -145,9 +159,9 @@ export default {
           {
             title: this.titleTalk,
             description: this.descriptionTalk,
-            isRepeated: this.isRepeated
-          }
-        ]
+            isRepeated: this.isRepeated,
+          },
+        ],
       };
       this.$emit("speakerEdited", payload);
     },
@@ -156,7 +170,7 @@ export default {
       const payload = {
         title: this.titleTalk,
         description: this.descriptionTalk,
-        isRepeated: this.isRepeated
+        isRepeated: this.isRepeated,
       };
       talk.push(payload);
       this.$emit("talkEdited", talk);
@@ -172,7 +186,34 @@ export default {
       } else if (this.$route.name === "NewTalk") {
         this.sendNewTalk();
       }
-    }
-  }
+    },
+  },
 };
 </script>
+
+<style scoped lang="scss">
+.registration_section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.form {
+  -webkit-box-shadow: 1px 2px 5px -1px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 1px 2px 5px -1px rgba(0, 0, 0, 0.75);
+  box-shadow: 1px 2px 5px -1px rgba(0, 0, 0, 0.75);
+  width: 50%;
+}
+.personal_info {
+  display: flex;
+  flex-direction: column;
+}
+.talks_info {
+  display: flex;
+  flex-direction: column;
+}
+
+.name-email {
+  display:flex;
+}
+</style>

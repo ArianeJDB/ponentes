@@ -1,5 +1,6 @@
 <template>
     <div>
+      SPEAKERSSSSSSS
         <ul>
        <li v-for="(speaker, index) in speakersData" :key='index'>
            <router-link class="link" :to="`/speaker/${speaker._id}`">
